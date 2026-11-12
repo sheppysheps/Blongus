@@ -58,7 +58,7 @@ def build_deb(binary_path: str, icon_path: str, desktop_path: str, out_deb: str)
 
     control_text = (
         "Package: blongus\n"
-        "Version: 0.1.0\n"
+        "Version: 0.2.0\n"
         "Architecture: amd64\n"
         "Maintainer: sheppysheps <166719640+sheppysheps@users.noreply.github.com>\n"
         f"Installed-Size: {installed_kb}\n"
@@ -109,6 +109,6 @@ if __name__ == "__main__":
         binary_path=os.path.join(root, "dist-linux", "blongus"),
         icon_path=os.path.join(root, "BlongusLinux", "Assets", "scrimmy.png"),
         desktop_path=os.path.join(root, "BlongusLinux", "packaging", "blongus.desktop"),
-        out_deb=os.path.join(root, "dist-linux", "blongus_0.1.0_amd64.deb"),
+        out_deb=os.path.join(root, "dist-linux", "blongus_0.2.0_amd64.deb"),
     )
 

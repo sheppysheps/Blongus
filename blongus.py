@@ -15,7 +15,7 @@ Return value: a string.
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def blongus():
-    if random.randint(1, 100) == 1:
+    if random.randint(1, 50) == 1:
         with open(os.path.join(BASE_DIR, "special.txt"), "r", encoding="utf-8") as f:
             special = [line.strip() for line in f if line.strip()]
         return random.choice(special)
@@ -31,7 +31,24 @@ def blongus():
     return word
 
 def main():
-    print(blongus())
+    count = 1
+    args = sys.argv[1:]
+    i = 0
+    while i < len(args):
+        arg = args[i]
+        if arg in ("-n", "--count") and i + 1 < len(args):
+            count = max(1, int(args[i + 1]))
+            i += 2
+        elif arg.startswith("--count="):
+            count = max(1, int(arg.split("=", 1)[1]))
+            i += 1
+        elif arg.isdigit():
+            count = max(1, int(arg))
+            i += 1
+        else:
+            i += 1
+    for _ in range(count):
+        print(blongus())
 
 if __name__ == "__main__":
     main()

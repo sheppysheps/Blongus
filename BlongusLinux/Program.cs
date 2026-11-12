@@ -32,12 +32,15 @@ internal static class Program
             a.Equals("--help", StringComparison.OrdinalIgnoreCase) ||
             a.Equals("-h", StringComparison.OrdinalIgnoreCase));
 
+        int count = ParseCount(args, out bool hasExplicitCount);
+
         if (showHelp)
         {
             Console.WriteLine("blongus - Generates a nonsense word from three dictionary parts.");
-            Console.WriteLine("Usage: blongus [--cli | --gui | --help]");
-            Console.WriteLine("  --cli, -c   Print the generated word to stdout and exit.");
-            Console.WriteLine("  --gui, -g   Show the 5-second confetti celebration overlay.");
+            Console.WriteLine("Usage: blongus [--cli | --gui | --help] [-n <count>]");
+            Console.WriteLine("  --cli, -c         Print the generated word(s) to stdout and exit.");
+            Console.WriteLine("  -n, --count <N>   Generate N words in CLI mode (default: 1).");
+            Console.WriteLine("  --gui, -g         Show the 5-second confetti celebration overlay.");
             return 0;
         }
 
@@ -45,15 +48,51 @@ internal static class Program
             !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY")) ||
             !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
 
-        if (forceCli || (!forceGui && (Console.IsOutputRedirected || !hasDisplay)))
+        if (forceCli || hasExplicitCount || (!forceGui && (Console.IsOutputRedirected || !hasDisplay)))
         {
-            Console.WriteLine(BlongusGenerator.Generate());
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine(BlongusGenerator.Generate());
+            }
             Console.Out.Flush();
             return 0;
         }
 
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
         return 0;
+    }
+
+    private static int ParseCount(string[] args, out bool hasExplicitCount)
+    {
+        hasExplicitCount = false;
+        for (int i = 0; i < args.Length; i++)
+        {
+            string arg = args[i];
+            if ((arg.Equals("-n", StringComparison.OrdinalIgnoreCase) ||
+                 arg.Equals("--count", StringComparison.OrdinalIgnoreCase)) &&
+                i + 1 < args.Length &&
+                int.TryParse(args[i + 1], out int parsed) &&
+                parsed > 0)
+            {
+                hasExplicitCount = true;
+                return parsed;
+            }
+
+            if (arg.StartsWith("--count=", StringComparison.OrdinalIgnoreCase) &&
+                int.TryParse(arg["--count=".Length..], out int eqParsed) &&
+                eqParsed > 0)
+            {
+                hasExplicitCount = true;
+                return eqParsed;
+            }
+
+            if (int.TryParse(arg, out int posParsed) && posParsed > 0)
+            {
+                hasExplicitCount = true;
+                return posParsed;
+            }
+        }
+        return 1;
     }
 
     public static AppBuilder BuildAvaloniaApp()
@@ -65,26 +104,25 @@ internal static class Program
 internal static class BlongusGenerator
 {
     private static readonly Assembly CurrentAssembly = Assembly.GetExecutingAssembly();
+    private static readonly string[] First = ReadLines("Blongus.first.txt");
+    private static readonly string[] Second = ReadLines("Blongus.second.txt");
+    private static readonly string[] Third = ReadLines("Blongus.third.txt");
+    private static readonly string[] Special = ReadLines("Blongus.special.txt");
 
     public static string Generate()
     {
-        // 1 in 100 chance to pull directly from special.txt instead of first/second/third
-        if (Random.Shared.Next(100) == 0)
+        // 1 in 50 chance to pull directly from special.txt instead of first/second/third
+        if (Random.Shared.Next(50) == 0)
         {
-            string[] special = ReadLines("Blongus.special.txt");
-            return PickRandom(special);
+            return PickRandom(Special);
         }
 
-        string[] first = ReadLines("Blongus.first.txt");
-        string[] second = ReadLines("Blongus.second.txt");
-
-        string word = PickRandom(first) + PickRandom(second);
+        string word = PickRandom(First) + PickRandom(Second);
 
         // 1 in 8 chance that the third part is omitted (matches blongus.py)
         if (Random.Shared.Next(8) != 0)
         {
-            string[] third = ReadLines("Blongus.third.txt");
-            word += PickRandom(third);
+            word += PickRandom(Third);
         }
 
         return word;

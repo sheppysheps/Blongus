@@ -43,16 +43,16 @@ python /path/to/BlongusLinux/packaging/build_deb.py
 
 Outputs:
 Standalone self-contained ELF binary: blongus
-Debian package: `blongus_0.1.0_amd64.deb`
+Debian package: `blongus_0.2.0_amd64.deb`
 Install & Run on Debian (and Devuan / antiX / MX / other non-systemd distros)
 
 ### Option A — Install the .deb package (sets up CLI, Scrimmy Bingus icon, and desktop launcher):
 
 ```bash
-sudo apt install ./blongus_0.1.0_amd64.deb
+sudo apt install ./blongus_0.2.0_amd64.deb
 ```
 
-*(Or `sudo dpkg -i blongus_0.1.0_amd64.deb && sudo apt-get -f install`.)*
+*(Or `sudo dpkg -i blongus_0.2.0_amd64.deb && sudo apt-get -f install`.)*
 
 ### Option B — Standalone binary (any x86_64 Linux distro):
 
