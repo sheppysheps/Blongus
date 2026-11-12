@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "blongus"
-version = "0.2.0"
+version = "0.2.1"
 description = "Generates a nonsense word from three line-delimited dictionary files."
 requires-python = ">=3.8"
 
