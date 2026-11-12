@@ -15,13 +15,17 @@ Return value: a string.
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def blongus():
-    with open(os.path.join(BASE_DIR, "first.txt"), "r") as f:
+    if random.randint(1, 100) == 1:
+        with open(os.path.join(BASE_DIR, "special.txt"), "r", encoding="utf-8") as f:
+            special = [line.strip() for line in f if line.strip()]
+        return random.choice(special)
+    with open(os.path.join(BASE_DIR, "first.txt"), "r", encoding="utf-8") as f:
         first = f.readlines()
-    with open(os.path.join(BASE_DIR, "second.txt"), "r") as f:
+    with open(os.path.join(BASE_DIR, "second.txt"), "r", encoding="utf-8") as f:
         second = f.readlines()
     word = random.choice(first).strip() + random.choice(second).strip()
     if random.randint(1, 8) != 1:
-        with open(os.path.join(BASE_DIR, "third.txt"), "r") as f:
+        with open(os.path.join(BASE_DIR, "third.txt"), "r", encoding="utf-8") as f:
             third = f.readlines()
         word += random.choice(third).strip()
     return word

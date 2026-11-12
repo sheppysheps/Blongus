@@ -68,6 +68,13 @@ internal static class BlongusGenerator
 
     public static string Generate()
     {
+        // 1 in 100 chance to pull directly from special.txt instead of first/second/third
+        if (Random.Shared.Next(100) == 0)
+        {
+            string[] special = ReadLines("Blongus.special.txt");
+            return PickRandom(special);
+        }
+
         string[] first = ReadLines("Blongus.first.txt");
         string[] second = ReadLines("Blongus.second.txt");
 
@@ -353,18 +360,21 @@ internal sealed class CelebrationCanvas : Control
     public CelebrationCanvas(string word)
     {
         _word = word;
-        _typeface = LoadEmbeddedTypeface();
+        bool needsShiftJisFont = word.Any(c => c > 0x7E);
+        _typeface = needsShiftJisFont
+            ? LoadEmbeddedTypeface("Blongus.MPLUS1p-Bold.ttf", "MS PGothic")
+            : LoadEmbeddedTypeface("Blongus.ComicNeue-Bold.ttf", "Comic Sans MS");
     }
 
-    private static SKTypeface LoadEmbeddedTypeface()
+    private static SKTypeface LoadEmbeddedTypeface(string resourceName, string fallbackFamily)
     {
-        using Stream? fontStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Blongus.ComicNeue-Bold.ttf");
+        using Stream? fontStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
         if (fontStream is not null)
         {
             return SKTypeface.FromStream(fontStream);
         }
 
-        return SKTypeface.FromFamilyName("Comic Sans MS", SKFontStyle.Bold)
+        return SKTypeface.FromFamilyName(fallbackFamily, SKFontStyle.Bold)
             ?? SKTypeface.Default;
     }
 

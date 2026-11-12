@@ -96,6 +96,13 @@ internal static class BlongusGenerator
 
     public static string Generate()
     {
+        // 1 in 100 chance to pull directly from special.txt instead of first/second/third
+        if (Random.Shared.Next(100) == 0)
+        {
+            var special = ReadLines("Blongus.special.txt");
+            return PickRandom(special);
+        }
+
         var first = ReadLines("Blongus.first.txt");
         var second = ReadLines("Blongus.second.txt");
 
@@ -311,7 +318,8 @@ internal sealed class CelebrationOverlayForm : Form
 
     private void DrawWord(Graphics g)
     {
-        using var fontFamily = new FontFamily("Comic Sans MS");
+        bool needsShiftJisFont = _word.Any(c => c > 0x7E);
+        using var fontFamily = ResolveFontFamily(needsShiftJisFont);
         float fontSize = CalculateFontSize(g, fontFamily, _word, Width * 0.85f);
 
         using var path = new GraphicsPath();
@@ -397,6 +405,26 @@ internal sealed class CelebrationOverlayForm : Form
             size -= 12f;
         }
         return size;
+    }
+
+    private static FontFamily ResolveFontFamily(bool needsShiftJisFont)
+    {
+        if (needsShiftJisFont)
+        {
+            foreach (string name in new[] { "MS PGothic", "Meiryo", "Yu Gothic UI" })
+            {
+                try
+                {
+                    return new FontFamily(name);
+                }
+                catch
+                {
+                    // Try next fallback
+                }
+            }
+        }
+
+        return new FontFamily("Comic Sans MS");
     }
 
     private void ApplyBitmapToLayeredWindow(Bitmap bitmap)

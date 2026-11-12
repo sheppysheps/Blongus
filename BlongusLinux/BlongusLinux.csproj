@@ -23,8 +23,10 @@
     <EmbeddedResource Include="..\first.txt" LogicalName="Blongus.first.txt" />
     <EmbeddedResource Include="..\second.txt" LogicalName="Blongus.second.txt" />
     <EmbeddedResource Include="..\third.txt" LogicalName="Blongus.third.txt" />
+    <EmbeddedResource Include="..\special.txt" LogicalName="Blongus.special.txt" />
     <EmbeddedResource Include="..\children_cheering.wav" LogicalName="Blongus.children_cheering.wav" />
     <EmbeddedResource Include="Assets\ComicNeue-Bold.ttf" LogicalName="Blongus.ComicNeue-Bold.ttf" />
+    <EmbeddedResource Include="Assets\MPLUS1p-Bold.ttf" LogicalName="Blongus.MPLUS1p-Bold.ttf" />
     <EmbeddedResource Include="Assets\scrimmy.png" LogicalName="Blongus.scrimmy.png" />
   </ItemGroup>
 

@@ -33,6 +33,8 @@ scr
 shr
 sp
 sr
+sm
+st
 t
 tr
 v

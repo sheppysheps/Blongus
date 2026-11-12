@@ -17,6 +17,7 @@
     <EmbeddedResource Include="..\first.txt" LogicalName="Blongus.first.txt" />
     <EmbeddedResource Include="..\second.txt" LogicalName="Blongus.second.txt" />
     <EmbeddedResource Include="..\third.txt" LogicalName="Blongus.third.txt" />
+    <EmbeddedResource Include="..\special.txt" LogicalName="Blongus.special.txt" />
     <EmbeddedResource Include="..\children_cheering.wav" LogicalName="Blongus.children_cheering.wav" />
   </ItemGroup>
 
