@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Blongus
+Comment=Generates a nonsense word with confetti and cheering
+Exec=/usr/local/bin/blongus --gui
+Icon=blongus
+Terminal=false
+Categories=Utility;Amusement;
+StartupNotify=false
+

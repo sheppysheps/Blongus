@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Blongus</AssemblyName>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\first.txt" LogicalName="Blongus.first.txt" />
+    <EmbeddedResource Include="..\second.txt" LogicalName="Blongus.second.txt" />
+    <EmbeddedResource Include="..\third.txt" LogicalName="Blongus.third.txt" />
+    <EmbeddedResource Include="..\children_cheering.wav" LogicalName="Blongus.children_cheering.wav" />
+  </ItemGroup>
+
+</Project>
+
